@@ -1,0 +1,35 @@
+version: '3'
+services:
+  mongoDB:
+    image: mongo 
+    environment:
+     - MONGO_INITDB_ROOT_USERNAME=admin
+     - MONGO_INITDB_ROOT_PASSWORD=admin
+    volumes:
+      - ./db:/data/db:rw
+    
+  mongo-express:
+    image: mongo-express
+    ports:
+     - 8081:8081 #Ajust Port as needed
+    environment:
+     - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+     - ME_CONFIG_MONGODB_ADMINPASSWORD=admin
+     - ME_CONFIG_MONGODB_SERVER=mongoDB
+  
+  nodejs-backend:
+    build: ./Series_Database/
+    ports:
+      - "3000:3000" # Adjust port as needed -> Need to change port in base url for node-js frontend as well
+    environment:
+      - dbuser=admin #same user as MONGO_INITDB_ROOT_USERNAME
+      - dbpass=admin #same password as MONGO_INIT_ROOT_PASSWORD
+      - dbname=Series_Movie_Database
+      - dbcollection=Series_Movie_Collection
+
+  nodejs-frontend:
+    build: ./Series_Database_Frontend/
+    ports:
+    - "8080:8080" # Adjust port as needed
+    environment:
+      - base_url="http://localhost:3000" # Open IP Address of Frontend Database

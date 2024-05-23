@@ -1,0 +1,102 @@
+/* styles.css */
+
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    /* Smaller size for buttons */
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    input,
+    select,
+    button {
+        margin-bottom: 5px;
+    }
+}
+
+/* Styles for table rows */
+tr {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) {
+    background-color: #e9e9e9;
+}
+
+td {
+    padding: 8px; /* Add padding to table cells */
+}
+
+/* Center align text in table cells, except for "node" and "note comment" columns */
+td:not(:nth-child(1)):not(:nth-child(9)):not(:nth-child(10)) {
+    text-align: center;
+}
+
+/* Left align "note comment" column */
+td:nth-child(9) {
+    text-align: left;
+}
+
+/* Left align "name" column */
+td:nth-child(2) {
+    text-align: left;
+}
+
+th.sortable {
+    cursor: pointer;
+}
+
+th.asc:after {
+    content: '\25B2'; /* Unicode character for upward triangle */
+}
+
+th.desc:after {
+    content: '\25BC'; /* Unicode character for downward triangle */
+}
+
