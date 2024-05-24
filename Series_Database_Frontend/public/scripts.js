@@ -1,6 +1,7 @@
 let localEntries;
 let apiUrl;
 
+// Fetch Backend URL from Server
 async function fetchApiUrl() {
     try {
         const response = await fetch('/api-base-url');
@@ -13,34 +14,36 @@ async function fetchApiUrl() {
     }
 }
 
+// Fetch all entries from API
 async function fetchEntries() {
+    // Check if apiUrl is defined
     if (!apiUrl) {
         console.error('API URL is not defined.');
         return;
     }
 
-    // What is going on with this problem!
-
+    // Define backend URL
     const entriesUrl = apiUrl + "/api/get/allEntries";
     console.log("EntriesUrl: "+ entriesUrl);
     try {
-        const response = await fetch(entriesUrl);
+        const response = await fetch(entriesUrl); // Fetch Results 
         if (!response.ok) {
             throw new Error(`Error fetching entries: ${response.statusText}`);
         }
-        const data = await response.json();
-        localEntries = data;
-        displayEntries(data);
+        const data = await response.json(); 
+        localEntries = data; // Store data 
+        displayEntries(data); // Display Data
     } catch (error) {
         console.error('Error fetching entries:', error);
     }
 }
 
+// Function for Displaying Data
 function displayEntries(entries) {
-    const tableBody = document.getElementById('trackerBody');
-    tableBody.innerHTML = '';
+    const tableBody = document.getElementById('trackerBody'); // Define where to display data
+    tableBody.innerHTML = ''; // Clear inner html
 
-    entries.forEach(entry => {
+    entries.forEach(entry => { // Loop throug all entries. 
         const newRow = tableBody.insertRow();
         const startDateSubstring = entry.startDate.substring(0, 10);
         const finishDateSubstring = entry.finishDate ? entry.finishDate.substring(0, 10) : "N/A";
@@ -55,17 +58,20 @@ function displayEntries(entries) {
                             <td>${entry.rewatchCount}</td>
                             <td>${entry.note}</td>
                             <td><button onclick='editEntry(this)'>Edit</button> <button onclick='deleteEntry(this)'>Delete</button></td>`;
-    });
+    }); // Change HTML element
 }
 
-async function addEntry() {
-    if (!apiUrl) {
+// Frontend function for adding a entry 
+async function addEntry() { 
+    // Check if API URL is defined
+    if (!apiUrl) { 
         console.error('API URL is not defined.');
         return;
     }
-
+    
+    // Define base URL
     const addUrl = apiUrl + "/api/add/entry";
-    try {
+    try { // Try to get all values from the site
         const name = document.getElementById("name").value;
         const status = document.getElementById("status").value;
         const score = parseFloat(document.getElementById("score").value);
@@ -75,7 +81,7 @@ async function addEntry() {
         const rewatchCount = parseInt(document.getElementById("rewatchCount").value);
         const note = document.getElementById("note").value;
 
-        const entry = {
+        const entry = { 
             name,
             status,
             score,
@@ -86,7 +92,7 @@ async function addEntry() {
             note
         };
 
-        const response = await fetch(addUrl, {
+        const response = await fetch(addUrl, { // send POST Requst to Add data; With content as JSON format
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -95,8 +101,8 @@ async function addEntry() {
         });
 
         if (response.ok) {
-            fetchEntries();
-            document.getElementById("trackerForm").reset();
+            fetchEntries(); // Re-Fetch Entries from DB -> new Entrie is added and displayed to list
+            document.getElementById("trackerForm").reset(); 
         } else {
             console.error('Error adding entry:', response.statusText);
         }
@@ -105,15 +111,18 @@ async function addEntry() {
     }
 }
 
+// Function for deleting Entries from database
 async function deleteEntryFromDatabase(entryId) {
+    // Check if APIURL is defined
     if (!apiUrl) {
         console.error('API URL is not defined.');
         return;
     }
 
+    // Set base url 
     const deleteUrl = apiUrl + "/api/delete/entry";
     try {
-        const response = await fetch(deleteUrl, {
+        const response = await fetch(deleteUrl, { // Send delete request to the API
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -129,18 +138,20 @@ async function deleteEntryFromDatabase(entryId) {
     }
 }
 
+// Functionality for the delete button
 async function deleteEntry(button) {
     try {
-        const row = button.closest('tr');
-        const entryId = row.querySelector('.id').innerText;
+        const row = button.closest('tr'); // find row
+        const entryId = row.querySelector('.id').innerText; // get EntryID from database 
 
-        await deleteEntryFromDatabase(entryId);
-        row.remove();
+        await deleteEntryFromDatabase(entryId); // Delete Entry from database
+        row.remove(); // Remove row from html
     } catch (error) {
         console.error('Error deleting entry:', error);
     }
 }
 
+// Function for the Edit button
 function editEntry(row) {
     try {
         var i = row.parentNode.parentNode.rowIndex;
@@ -162,22 +173,24 @@ function editEntry(row) {
     }
 }
 
+// Functionality for Sorting Entries in the Website
 function sortEntries(columnIndex) {
-    const columnHeader = document.getElementById(`header-${columnIndex}`);
-    let sortOrder;
-    if (columnHeader.dataset.sortOrder !== undefined) {
+    const columnHeader = document.getElementById(`header-${columnIndex}`); // Get Colum header
+    let sortOrder; 
+    if (columnHeader.dataset.sortOrder !== undefined) { // Define first sort case
         sortOrder = columnHeader.dataset.sortOrder;
     } else {
         sortOrder = 'asc';
     }
     
-    if (sortOrder === 'asc') {
+    if (sortOrder === 'asc') { //Switch between asc and desc sorting
         sortOrder = 'desc';
     } else {
         sortOrder = 'asc';
     }
     columnHeader.dataset.sortOrder = sortOrder;
 
+    // Sort Entries
     localEntries.sort((a, b) => {
         let comparison = 0;
         if (columnIndex === 0) {
@@ -198,6 +211,7 @@ function sortEntries(columnIndex) {
             comparison = a.note.localeCompare(b.note);
         }
         
+        // If sorting is desc reverse the current sort order
         if (sortOrder === 'desc') {
             comparison *= -1;
         }
@@ -208,23 +222,23 @@ function sortEntries(columnIndex) {
     displayEntries(localEntries);
 }
 
+// Initial function on website load to fetch data and load endpoint etc. 
 async function initialize() {
     await fetchApiUrl();  // Fetch and store the API URL once
     await fetchEntries();  // Fetch entries after the API URL has been fetched
 
-    const headers = document.querySelectorAll('#trackerTable th');
+    const headers = document.querySelectorAll('#trackerTable th'); // define table
 
-    const clickHandler = (event) => {
+    const clickHandler = (event) => { // Create Event Handler for Sorting Entries
         event.stopPropagation(); // Prevent event propagation
         const columnIndex = Array.from(headers).indexOf(event.target);
         sortEntries(columnIndex);
     };
 
-    headers.forEach(header => {
+    headers.forEach(header => { //Add Event Handler to headers.
         header.addEventListener('click', clickHandler);
     });
 }
 
-document.addEventListener('DOMContentLoaded', initialize);
+document.addEventListener('DOMContentLoaded', initialize); // Run the initalize function
 
-//window.onload = fetchEntries;

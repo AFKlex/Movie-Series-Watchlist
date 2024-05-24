@@ -6,12 +6,12 @@ services:
      - MONGO_INITDB_ROOT_USERNAME=admin
      - MONGO_INITDB_ROOT_PASSWORD=admin
     volumes:
-      - ./db:/data/db:rw
+      - ./db:/data/db:rw #Change DB Storage Location if needed
     
   mongo-express:
     image: mongo-express
     ports:
-     - 8081:8081 #Ajust Port as needed
+     - 8081:8081 #Adjust Open Port if needed. 
     environment:
      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin
@@ -20,7 +20,7 @@ services:
   nodejs-backend:
     build: ./Series_Database/
     ports:
-      - "3000:3000" # Adjust port as needed -> Need to change port in base url for node-js frontend as well
+      - "3000:3000" # Adjust Open Port if needed to run on an other port. 
     environment:
       - dbuser=admin #same user as MONGO_INITDB_ROOT_USERNAME
       - dbpass=admin #same password as MONGO_INIT_ROOT_PASSWORD
