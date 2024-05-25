@@ -18,18 +18,26 @@ This web application allows users to track their series and movies, keeping deta
 
 ### Setup
 
-1. **Clone the Repository**: Clone the repository to your local machine.
-   ```bash
-   git clone https://github.com/yourusername/series-movies-tracker.git
-   ```
-2. **Navigate to the Project Directory**: Open the project folder.
-   ```bash
-   cd series-movies-tracker
-   ```
-3. (Optional) Change Configs in the Docker-Compose file
-4. docker-compose up
-5. connect to specefied IP/Port 
-6. enjoy
+1. Install docker 
+```
+sudo apt install docker
+```
+
+2. Install Docker-compose 
+```
+sudo apt install docker-compose 
+```
+
+3. Pull the GitHub repository 
+```
+git clone https://github.com/AFKlex/Movie-Series-Watchlist.git
+```
+
+4. switch into directory `cd Movie-Series-Watchlist` 
+5. Configure the Docker Container if needed. If not, run only for localhost. Change the IP Address of the exposed Docker Container. 
+6. Start the docker container with `docker-compose up`
+
+7. enjoy
 
 ## Usage
 
