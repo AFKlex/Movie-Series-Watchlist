@@ -5,66 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Series/Movies Tracker</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
+    <div class="container">
+        <h2>Series/Movies Tracker</h2>
+        <form id="trackerForm">
+            <label for="name">Series/Movie Name:</label>
+            <input type="text" id="name" required>
 
-<div class="container">
-    <h2>Series/Movies Tracker</h2>
-    <form id="trackerForm">
-        <label for="name" >Series/Movie Name:</label>
-        <input type="text" id="name" required>
+            <label for="status">Status:</label>
+            <select id="status" required>
+                <option value="Completed">Completed</option>
+                <option value="Plan to watch">Plan to watch</option>
+                <option value="Rewatching">Rewatching</option>
+                <option value="Paused">Paused</option>
+                <option value="Dropped">Dropped</option>
+            </select>
 
-        <label for="status">Status:</label>
-        <select id="status" required>
-            <option value="Completed">Completed</option>
-            <option value="Plan to watch">Plan to watch</option>
-            <option value="Rewatching">Rewatching</option>
-            <option value="Paused">Paused</option>
-            <option value="Dropped">Dropped</option>
-        </select>
+            <label for="score">Score (0-100):</label>
+            <input type="number" id="score" min="0" max="100" required>
 
-        <label for="score">Score (0-100):</label>
-        <input type="number" id="score" min="0" max="100" required>
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
 
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate">
+            <label for="finishDate">Finish Date:</label>
+            <input type="date" id="finishDate">
+            <br>
+            <label for="currentEpisode">Current Episode:</label>
+            <input type="number" id="currentEpisode" min="1">
 
-        <label for="finishDate">Finish Date:</label>
-        <input type="date" id="finishDate">
-        <br>
-        <label for="currentEpisode">Current Episode:</label>
-        <input type="number" id="currentEpisode" min="1">
+            <label for="rewatchCount">Rewatch Count:</label>
+            <input type="number" id="rewatchCount" min="0">
 
-        <label for="rewatchCount">Rewatch Count:</label>
-        <input type="number" id="rewatchCount" min="0">
+            <label for="note">Note Comment:</label>
+            <input type="text" id="note">
 
-        <label for="note">Note Comment:</label>
-        <input type="text" id="note">
+            <button type="button" onclick="addEntry()">Add Entry</button>
+        </form>
 
-        <button type="button" onclick="addEntry()">Add Entry</button>
-    </form>
+        <h2>Tracker Entries</h2>
+        <div class="table-container">
+            <table id="trackerTable">
+                <thead>
+                    <tr>
+                        <th id="header-0">Name</th>
+                        <th id="header-1">Status</th>
+                        <th id="header-2">Score</th>
+                        <th id="header-3">Start Date</th>
+                        <th id="header-4">Finish Date</th>
+                        <th id="header-5">Current Episode</th>
+                        <th id="header-6">Rewatch Count</th>
+                        <th id="header-7">Note</th>
+                        <th id="header-8">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="trackerBody">
+                    <!-- Entries will be added here -->
+                </tbody>
+            </table>
+        </div>
+        <div id="cardContainer">
+            <!-- Cards will be added here -->
+        </div>
+    </div>
 
-    <h2>Tracker Entries</h2>
-    <table id="trackerTable">
-        <thead>
-            <tr>
-                <th id="header-0" >Name</th>
-                <th id="header-1" >Status</th>
-                <th id="header-2" >Score</th>
-                <th id="header-3" >Start Date</th>
-                <th id="header-4" >Finish Date</th>
-                <th id="header-5" >Current Episode</th>
-                <th id="header-6" >Rewatch Count</th>
-                <th id="header-7" >Note</th>
-                <th id="header-8" >Action</th>
-            </tr>
-        </thead>
-        <tbody id="trackerBody">
-            <!-- Entries will be added here -->
-        </tbody>
-    </table>
-</div>
-
-<script src="scripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

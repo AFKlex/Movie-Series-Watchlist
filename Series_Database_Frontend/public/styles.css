@@ -1,5 +1,3 @@
-/* styles.css */
-
 /* General styles */
 body {
     font-family: Arial, sans-serif;
@@ -58,6 +56,55 @@ button:hover {
     button {
         margin-bottom: 5px;
     }
+
+    .table-container {
+        display: none;
+    }
+
+    #cardContainer {
+        display: block;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
+    }
+
+    .card .card-header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card .card-content {
+        margin-bottom: 5px;
+    }
+
+    .card .card-content span {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .card-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card-actions button {
+        width: 48%;
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    .table-container {
+        display: block;
+    }
+
+    #cardContainer {
+        display: none;
+    }
 }
 
 /* Styles for table rows */
@@ -99,4 +146,3 @@ th.asc:after {
 th.desc:after {
     content: '\25BC'; /* Unicode character for downward triangle */
 }
-

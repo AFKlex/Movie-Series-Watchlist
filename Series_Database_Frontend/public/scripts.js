@@ -1,3 +1,4 @@
+
 let localEntries;
 let apiUrl;
 
@@ -6,9 +7,7 @@ async function fetchApiUrl() {
     try {
         const response = await fetch('/api-base-url');
         const data = await response.json();
-        apiUrl = (data.apiUrl).replaceAll("\"","");
-        
-        //console.log('API URL:', apiUrl);
+        apiUrl = (data.apiUrl).replaceAll("\"", "");
     } catch (error) {
         console.error('Error fetching API URL:', error);
     }
@@ -16,7 +15,6 @@ async function fetchApiUrl() {
 
 // Fetch all entries from API
 async function fetchEntries() {
-    // Check if apiUrl is defined
     if (!apiUrl) {
         console.error('API URL is not defined.');
         return;
@@ -40,14 +38,17 @@ async function fetchEntries() {
 
 // Function for Displaying Data
 function displayEntries(entries) {
-    const tableBody = document.getElementById('trackerBody'); // Define where to display data
-    tableBody.innerHTML = ''; // Clear inner html
+    const tableBody = document.getElementById('trackerBody');
+    const cardContainer = document.getElementById('cardContainer');
 
-    entries.forEach(entry => { // Loop throug all entries. 
-        const newRow = tableBody.insertRow();
+    tableBody.innerHTML = '';
+    cardContainer.innerHTML = '';
+
+    entries.forEach(entry => {
         const startDateSubstring = entry.startDate.substring(0, 10);
         const finishDateSubstring = entry.finishDate ? entry.finishDate.substring(0, 10) : "N/A";
-        
+
+        const newRow = tableBody.insertRow();
         newRow.innerHTML = `<td class="id" style="display: none;">${entry._id}</td>
                             <td>${entry.name}</td>
                             <td>${entry.status}</td>
@@ -58,8 +59,62 @@ function displayEntries(entries) {
                             <td>${entry.rewatchCount}</td>
                             <td>${entry.note}</td>
                             <td><button onclick='editEntry(this)'>Edit</button> <button onclick='deleteEntry(this)'>Delete</button></td>`;
-    }); // Change HTML element
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+            <div class="card-header">${entry.name}</div>
+            <div class="card-content">
+                <span>Status: ${entry.status}</span>
+                <span>Score: ${entry.score}</span>
+                <span>Start Date: ${startDateSubstring}</span>
+                <span>Finish Date: ${finishDateSubstring}</span>
+                <span>Current Episode: ${entry.currentEpisode}</span>
+                <span>Rewatch Count: ${entry.rewatchCount}</span>
+                <span>Note: ${entry.note}</span>
+            </div>
+            <div class="card-actions">
+                <button class='edit-btn' data-id='${entry._id}'>Edit</button>
+                <button class='delete-btn' data-id='${entry._id}'>Delete</button>
+            </div>
+        `;
+        cardContainer.appendChild(card);
+    });
+
+    // Attach event listeners to card buttons
+    const editButtons = cardContainer.querySelectorAll('.edit-btn');
+    const deleteButtons = cardContainer.querySelectorAll('.delete-btn');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const entryId = event.target.dataset.id;
+            const entry = entries.find(e => e._id === entryId);
+            if (entry) {
+                document.getElementById("name").value = entry.name;
+                document.getElementById("status").value = entry.status;
+                document.getElementById("score").value = entry.score;
+                document.getElementById("startDate").value = entry.startDate.substring(0, 10);
+                document.getElementById("finishDate").value = entry.finishDate ? entry.finishDate.substring(0, 10) : "";
+                document.getElementById("currentEpisode").value = entry.currentEpisode;
+                document.getElementById("rewatchCount").value = entry.rewatchCount;
+                document.getElementById("note").value = entry.note;
+
+                deleteEntryFromDatabase(entryId);
+                fetchEntries();
+            }
+        });
+    });
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const entryId = event.target.dataset.id;
+            await deleteEntryFromDatabase(entryId);
+            fetchEntries();
+        });
+    });
 }
+
+
 
 // Frontend function for adding a entry 
 async function addEntry() { 
