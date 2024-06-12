@@ -41,6 +41,9 @@ git clone https://github.com/AFKlex/Movie-Series-Watchlist.git
 
 ## Usage
 
+### Add Sample Data 
+To Add Sample Data you can use the 'AddSampleData.sh' script. In this script define the address and port of the Database. The script adds a few test data. 
+
 ### Adding an Entry
 
 1. **Enter Details**: Fill out the form with the required details:
@@ -58,7 +61,7 @@ git clone https://github.com/AFKlex/Movie-Series-Watchlist.git
 
 - **View Entries**: All entries are displayed in a table below the form.
 - **Manage Entries**: Use the action buttons in the table to update or delete entries.
-- **Sort Entries**: Entries can be sorted ascending or descending alphabetically order by pressing on the respective coloum.   
+- **Sort Entries**: Entries can be sorted ascending or descending alphabetically order by pressing on the respective coloum. This is only possible when we are not on a mobile phone and not in mobile view. 
 
 ## Reason
 
