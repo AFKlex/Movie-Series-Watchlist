@@ -36,8 +36,8 @@ git clone https://github.com/AFKlex/Movie-Series-Watchlist.git
 4. switch into directory `cd Movie-Series-Watchlist` 
 5. Configure the Docker Container if needed. If not, run only for localhost. Change the IP Address of the exposed Docker Container. 
 6. Start the docker container with `sudo docker-compose up`
-
-7. enjoy
+7. Connect to the specified IP or localhost (default)
+8. enjoy
 
 ## Usage
 
